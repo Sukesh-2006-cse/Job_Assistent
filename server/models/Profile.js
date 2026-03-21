@@ -3,10 +3,10 @@ const mongoose = require('mongoose');
 const ProfileSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     academic: {
-        degree: { type: String, required: true },
-        branch: { type: String, required: true },
-        college: { type: String, required: true },
-        gradYear: { type: Number, required: true }
+        degree: { type: String },
+        branch: { type: String },
+        college: { type: String },
+        gradYear: { type: Number }
     },
     experience: {
         skills: [String],

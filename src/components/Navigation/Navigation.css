@@ -1,0 +1,104 @@
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 4%;
+    background: white;
+    border-bottom: var(--border-width) solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--text-color);
+    cursor: pointer;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo::before {
+    content: 'A';
+    background: var(--accent-yellow);
+    color: black;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1.2rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-left: 3rem;
+    flex: 1;
+}
+
+.nav-link {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border: var(--border-width) solid transparent;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.nav-link:hover {
+    background: var(--accent-purple);
+    color: white;
+    border-color: var(--border-color);
+    box-shadow: 2px 2px 0px 0px #000000;
+    transform: translate(-1px, -1px);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.user-name {
+    color: var(--text-color);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.logout-btn {
+    padding: 0.6rem 1.5rem;
+    background: var(--accent-pink);
+    border: var(--border-width) solid var(--border-color);
+    color: black;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 3px 3px 0px 0px #000000;
+}
+
+.logout-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px 0px #000000;
+}
+
+.logout-btn:active {
+    transform: translate(0, 0);
+    box-shadow: none;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+}

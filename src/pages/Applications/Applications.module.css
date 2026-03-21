@@ -1,0 +1,186 @@
+.container {
+    min-height: 100vh;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.headerWrapper {
+    background: var(--accent-purple);
+    border-bottom: var(--border-width) solid var(--border-color);
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.5rem 3%;
+    max-width: 1600px;
+    margin: 0 auto;
+    color: white;
+}
+
+.content {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 3%;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 950;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    opacity: 0.9;
+}
+
+.addBtn {
+    background: var(--accent-yellow);
+    color: black;
+    border: var(--border-width) solid var(--border-color);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px 0px #000000;
+    transition: all 0.2s;
+}
+
+.addBtn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px 0px #000000;
+}
+
+.statsRow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 2rem 0;
+}
+
+.statBox {
+    background: white;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 3px 3px 0px 0px #000000;
+}
+
+.statNumber {
+    font-size: 2.5rem;
+    font-weight: 950;
+    line-height: 1;
+}
+
+.statLabel {
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.statBox:nth-child(1) {
+    background: var(--accent-blue);
+}
+
+.statBox:nth-child(2) {
+    background: var(--accent-yellow);
+}
+
+.statBox:nth-child(3) {
+    background: var(--accent-pink);
+}
+
+.statBox:nth-child(4) {
+    background: var(--accent-green);
+}
+
+.searchBar {
+    padding: 0 0 2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.searchInput {
+    width: 100%;
+    background: white;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    box-shadow: inset 2px 2px 0px 0px rgba(0, 0, 0, 0.05);
+}
+
+.searchInput:focus {
+    outline: none;
+    box-shadow: 4px 4px 0px 0px #000000;
+    transform: translate(-1px, -1px);
+}
+
+.filterButtons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.filterBtn {
+    background: white;
+    color: black;
+    border: var(--border-width) solid var(--border-color);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 2px 2px 0px 0px #000000;
+}
+
+.filterBtn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0px 0px #000000;
+}
+
+.activeFilter {
+    background: var(--accent-purple);
+    color: white;
+}
+
+.jobsList {
+    padding: 0 0 60px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.message {
+    text-align: center;
+    padding: 40px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-color);
+    background: white;
+    border: var(--border-width) dashed var(--border-color);
+    border-radius: var(--radius);
+}
+
+@media (max-width: 768px) {
+    .statsRow {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+}

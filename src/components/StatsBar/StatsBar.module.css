@@ -1,0 +1,81 @@
+.statsContainer {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin: 2rem 0;
+}
+
+.statBox {
+    background: white;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 4px 4px 0px 0px #000000;
+    transition: all 0.2s;
+    color: white;
+}
+
+.statNumber {
+    font-size: 2.5rem;
+    font-weight: 950;
+    line-height: 1;
+}
+
+.statLabel {
+    margin-top: 8px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.05em;
+}
+
+/* Border Colors per required logic */
+.total {
+    background: #475569;
+    border-color: var(--border-color);
+}
+
+.applied {
+    background: #0ea5e9;
+    border-color: var(--border-color);
+}
+
+.interview {
+    background: #f59e0b;
+    border-color: var(--border-color);
+}
+
+.offer {
+    background: #10b981;
+    border-color: var(--border-color);
+}
+
+.urgent {
+    background: #ef4444;
+    border-color: var(--border-color);
+}
+
+.redNumber {
+    color: #ef4444;
+}
+
+.greenNumber {
+    color: #22c55e;
+}
+
+@media (max-width: 1024px) {
+    .statsContainer {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .statsContainer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -1,113 +1,81 @@
 .discover-container {
     min-height: 100vh;
-    background: #0f172a;
-    color: white;
-    font-family: 'Inter', sans-serif;
-}
-
-.discover-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 5%;
-    background: rgba(30, 41, 59, 0.5);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.user-profile {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
-
-.logout-btn {
-    padding: 0.5rem 1rem;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.logout-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: #ef4444;
-    color: #ef4444;
+    background: var(--bg-color);
+    color: var(--text-color);
 }
 
 .discover-main {
-    padding: 3rem 5%;
-    max-width: 1400px;
+    padding: 2.5rem 3%;
+    max-width: 1600px;
     margin: 0 auto;
 }
 
 .discover-header {
     margin-bottom: 3rem;
+    background: var(--accent-yellow);
+    padding: 2.5rem;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-offset);
 }
 
 .discover-header h1 {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
+    font-weight: 950;
     margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
 }
 
 .discover-header p {
-    color: #94a3b8;
-    font-size: 1.1rem;
+    color: var(--text-color);
+    font-size: 1.2rem;
     margin-bottom: 1rem;
+    font-weight: 700;
 }
 
 .user-skills-badges {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.75rem;
 }
 
 .skill-badge {
-    font-size: 0.8rem;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 4px 10px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #e2e8f0;
+    font-size: 0.9rem;
+    background: white;
+    padding: 4px 14px;
+    border-radius: 20px;
+    border: 2px solid var(--border-color);
+    color: black;
+    font-weight: 800;
+    box-shadow: 2px 2px 0px 0px #000000;
 }
 
 .jobs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2rem;
+    gap: 2.5rem;
 }
 
-/* Job Card Styling */
+/* Job Card Styling - Unified with JobCard.module.css if used, 
+   but DiscoverPage.jsx seems to have its own JobCard component 
+   using these classes */
+
 .job-card {
-    background: rgba(30, 41, 59, 0.6);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 1.5rem;
-    transition: all 0.3s ease;
+    background: white;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: all 0.2s;
+    box-shadow: var(--shadow-offset);
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
 .job-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(56, 189, 248, 0.4);
-    background: rgba(30, 41, 59, 0.8);
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0px 0px #000000;
 }
 
 .job-card-header {
@@ -115,95 +83,112 @@
     align-items: flex-start;
     gap: 1rem;
     margin-bottom: 1.5rem;
-    position: relative;
 }
 
 .company-logo,
 .company-logo-placeholder {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--border-color);
     border-radius: 12px;
     object-fit: contain;
     background: white;
     flex-shrink: 0;
+    box-shadow: 2px 2px 0px 0px #000000;
 }
 
 .company-logo-placeholder {
-    background: linear-gradient(135deg, #6366f1, #a855f7);
+    background: var(--accent-purple);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
-    font-size: 1.5rem;
+    font-weight: 900;
+    font-size: 1.8rem;
     color: white;
 }
 
-.job-info {
-    flex: 1;
-    min-width: 0;
+.job-info h3 {
+    font-size: 1.3rem;
+    font-weight: 900;
+    margin: 0 0 0.3rem 0;
+    color: black;
+    line-height: 1.2;
 }
 
-.job-info h3 {
-    font-size: 1.1rem;
-    margin: 0 0 0.3rem 0;
-    color: #f8fafc;
-    line-height: 1.4;
-    word-break: break-word;
+.company-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .company-name {
-    color: #38bdf8;
-    font-weight: 500;
-    margin: 0;
+    color: var(--accent-purple);
+    font-weight: 800;
+    font-size: 1rem;
+    text-decoration: underline;
+}
+
+.match-badge {
+    background: var(--accent-green);
+    border: 2px solid var(--border-color);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 900;
+    font-size: 0.75rem;
+    box-shadow: 2px 2px 0px 0px #000000;
 }
 
 .source-tag {
-    font-size: 0.7rem;
-    background: rgba(56, 189, 248, 0.1);
-    color: #38bdf8;
-    padding: 4px 10px;
-    border-radius: 20px;
-    border: 1px solid rgba(56, 189, 248, 0.2);
-    flex-shrink: 0;
-    white-space: nowrap;
-    align-self: flex-start;
+    font-size: 11px;
+    background: var(--accent-pink);
+    color: black;
+    padding: 4px 12px;
+    border-radius: 4px;
+    border: 2px solid var(--border-color);
+    font-weight: 800;
+    text-transform: uppercase;
 }
 
 .job-meta {
     display: flex;
     gap: 1rem;
     margin-bottom: 1rem;
-    font-size: 0.9rem;
-    color: #94a3b8;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: black;
 }
 
 .job-description {
     font-size: 0.95rem;
-    color: #cbd5e1;
+    color: #444;
     line-height: 1.6;
     margin-bottom: 1.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
     flex-grow: 1;
-}
-
-.job-card-footer {
-    margin-top: auto;
 }
 
 .apply-btn {
     display: block;
     text-align: center;
-    padding: 0.8rem;
-    background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-    color: white;
+    padding: 1rem;
+    background: var(--accent-blue);
+    color: black;
     text-decoration: none;
-    border-radius: 12px;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 1.1rem;
+    transition: all 0.2s;
+    box-shadow: 4px 4px 0px 0px #000000;
 }
 
 .apply-btn:hover {
-    opacity: 0.9;
-    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px 0px #000000;
 }
 
 /* Skeleton Loading */
@@ -213,16 +198,12 @@
     gap: 2rem;
 }
 
-.skeleton-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2rem;
-}
-
 .skeleton-card {
-    height: 250px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 20px;
+    height: 300px;
+    background: white;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-offset);
     position: relative;
     overflow: hidden;
 }
@@ -234,32 +215,20 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
     animation: loading 1.5s infinite;
 }
 
 @keyframes loading {
-    0% {
-        transform: translateX(-100%);
-    }
-
-    100% {
+    to {
         transform: translateX(100%);
     }
 }
 
 .loading-text {
     text-align: center;
-    color: #94a3b8;
-    font-style: italic;
-}
-
-@media (max-width: 768px) {
-    .discover-header h1 {
-        font-size: 2rem;
-    }
-
-    .jobs-grid {
-        grid-template-columns: 1fr;
-    }
+    color: black;
+    font-weight: 800;
+    font-size: 1.2rem;
+    text-transform: uppercase;
 }

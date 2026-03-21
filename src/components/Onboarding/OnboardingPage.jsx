@@ -31,7 +31,7 @@ const OnboardingPage = () => {
         }
         // Check if onboarding is already complete from database state
         if (user.isOnboarded) {
-            navigate('/discover');
+            navigate('/dashboard');
         }
     }, [navigate]);
 
@@ -53,7 +53,7 @@ const OnboardingPage = () => {
             const user = JSON.parse(localStorage.getItem('user'));
             const payload = { ...formData, userId: user.id };
 
-            const response = await fetch('http://127.0.0.1:5000/api/onboarding', {
+            const response = await fetch('http://127.0.0.1:5000/api/profile/onboarding', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ const OnboardingPage = () => {
             localStorage.setItem('user', JSON.stringify(user));
 
             alert('Profile built and saved successfully!');
-            navigate('/discover');
+            navigate('/dashboard');
         } catch (error) {
             console.error('Error:', error);
             alert('There was an error saving your profile. Please try again.');

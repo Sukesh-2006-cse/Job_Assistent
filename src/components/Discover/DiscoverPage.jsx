@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './DiscoverPage.css';
+import Navigation from '../Navigation/Navigation';
 
 const JobCard = ({ job }) => (
     <div className="job-card">
@@ -12,7 +13,12 @@ const JobCard = ({ job }) => (
             )}
             <div className="job-info">
                 <h3>{job.title}</h3>
-                <p className="company-name">{job.company}</p>
+                <div className="company-row">
+                    <p className="company-name">{job.company}</p>
+                    {job.matchScore && (
+                        <span className="match-badge">🎯 {job.matchScore}%</span>
+                    )}
+                </div>
             </div>
             <span className="source-tag">{job.source}</span>
         </div>
@@ -56,8 +62,12 @@ const DiscoverPage = () => {
                     throw new Error('User ID missing. Please login again.');
                 }
 
-                // 1. Fetch the user's detailed profile
-                const profileRes = await fetch(`http://127.0.0.1:5000/api/profiles/${userId}`);
+                const token = localStorage.getItem('token');
+
+                // 1. Fetch the user's detailed profile (using unified /api/profile)
+                const profileRes = await fetch(`http://127.0.0.1:5000/api/profile`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
 
                 if (profileRes.status === 404) {
                     console.log('Profile not found, redirecting to onboarding');
@@ -66,8 +76,7 @@ const DiscoverPage = () => {
                 }
 
                 if (!profileRes.ok) {
-                    const errorData = await profileRes.json().catch(() => ({}));
-                    throw new Error(errorData.error || 'Failed to fetch profile info');
+                    throw new Error('Failed to fetch profile info');
                 }
 
                 const profileData = await profileRes.json();
@@ -78,8 +87,10 @@ const DiscoverPage = () => {
                 const skillQuery = profileData.experience?.skills?.slice(0, 2).join(' ');
                 const searchQuery = roleQuery || skillQuery || 'Software Engineer';
 
-                // 3. Fetch jobs using that personalized query
-                const jobsRes = await fetch(`http://127.0.0.1:5000/api/jobs?query=${encodeURIComponent(searchQuery)}`);
+                // 3. Fetch jobs using that personalized query (use /api/discover/jobs)
+                const jobsRes = await fetch(`http://127.0.0.1:5000/api/discover/jobs?query=${encodeURIComponent(searchQuery)}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
                 if (!jobsRes.ok) throw new Error('Failed to fetch recommended jobs');
 
                 const jobData = await jobsRes.json();
@@ -102,13 +113,7 @@ const DiscoverPage = () => {
 
     return (
         <div className="discover-container">
-            <nav className="discover-nav">
-                <div className="logo">JobAggregator</div>
-                <div className="user-profile">
-                    <span>Welcome, {user?.name || 'Explorer'}</span>
-                    <button onClick={handleLogout} className="logout-btn">Logout</button>
-                </div>
-            </nav>
+            <Navigation />
 
             <main className="discover-main">
                 <header className="discover-header">

@@ -1,3 +1,18 @@
+:root {
+  --bg-color: #F9F7F2;
+  --text-color: #000000;
+  --accent-purple: #6366F1;
+  --accent-yellow: #FFD100;
+  --accent-pink: #FF66AA;
+  --accent-green: #4ADE80;
+  --accent-blue: #38bdf8;
+  --border-color: #000000;
+  --border-width: 3px;
+  --shadow-offset: 4px 4px 0px 0px #000000;
+  --radius: 12px;
+  --font-main: 'Outfit', 'Inter', system-ui, sans-serif;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -7,9 +22,10 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: #0f172a;
-  color: white;
-  font-family: Inter, system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-main);
+  line-height: 1.5;
 }
 
 #root {

@@ -50,7 +50,7 @@ const AuthPage = () => {
 
             // Redirect based on onboarding status
             if (data.user.isOnboarded) {
-                navigate('/discover');
+                navigate('/dashboard');
             } else {
                 navigate('/onboarding');
             }
