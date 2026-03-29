@@ -9,9 +9,6 @@ const SocialLogin = () => {
             console.log('Google Success:', tokenResponse);
 
             try {
-                // In a real app, you'd fetch user info from Google using the token
-                // For this demo, we'll assume we have the info or use placeholders
-                // To do this properly, we need to fetch info from: https://www.googleapis.com/oauth2/v3/userinfo
                 const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
                     headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
                 });
@@ -42,13 +39,18 @@ const SocialLogin = () => {
                 }
             } catch (error) {
                 console.error('Google Auth Error:', error);
-                alert('Authentication with Google failed.');
+                alert('Authentication with Google failed. Please check the console for details.');
             }
         },
         onError: (error) => {
             console.log('Login Failed:', error);
-            alert('Google Login failed. Please check your configuration.');
+            if (error.error === 'popup_closed_by_user') {
+                alert('The login popup was closed before completion.');
+            } else {
+                alert('Google Login failed. This usually happens if popups are blocked by your browser. Please allow popups for this site in your browser settings.');
+            }
         },
+        flow: 'implicit',
     });
 
     return (
@@ -57,7 +59,7 @@ const SocialLogin = () => {
                 <span>Or continue with</span>
             </div>
 
-            <button className="google-login-btn" onClick={() => login()}>
+            <button className="google-login-btn" onClick={login}>
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
                 Sign in with Google
             </button>
