@@ -15,7 +15,7 @@ import Navigation from './components/Navigation/Navigation';
 
 function App() {
   return (
-    <GoogleOAuthProvider clientId="521236653559-icfh5s0fvctl5ncl1cjuagbspj3533el.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <Router>
         <div className="App">
           <Routes>
