@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getCareerRoadmap } from '../../api/butlerApi';
 import styles from './Career.module.css';
 import Navigation from '../../components/Navigation/Navigation';
+import { Lock, Lightbulb, Clock, ExternalLink } from 'lucide-react';
 
 const Career = () => {
     const [data, setData] = useState(null);
@@ -30,7 +31,7 @@ const Career = () => {
     if (!data || !data.roadmap) {
         return (
             <div className={styles.emptyContainer}>
-                <div className={styles.emptyIcon}>🛡️</div>
+                <div className={styles.emptyIcon}><Lock size={64} /></div>
                 <h1>Career Butler is locked</h1>
                 <p>{data?.message || 'Apply to more jobs to unlock career insights.'}</p>
                 <div className={styles.statsHint}>
@@ -59,7 +60,7 @@ const Career = () => {
 
                 <section className={styles.insightSection}>
                     <div className={styles.insightCard}>
-                        <div className={styles.insightIcon}>💡</div>
+                        <div className={styles.insightIcon}><Lightbulb size={28} /></div>
                         <div className={styles.insightText}>
                             <h3>Butler's Insight</h3>
                             <p>{insight}</p>
@@ -92,7 +93,7 @@ const Career = () => {
                                     <span className={styles.priorityLabel}>{item.priority} Priority</span>
                                 </div>
                                 <div className={styles.cardMeta}>
-                                    <span>⏱️ ~{item.estimatedWeeks} Weeks</span>
+                                    <span><Clock size={16} /> ~{item.estimatedWeeks} Weeks</span>
                                 </div>
                                 <div className={styles.resources}>
                                     <h4>Recommended Resources:</h4>
@@ -100,7 +101,7 @@ const Career = () => {
                                         {item.resources.map((res, idx) => (
                                             <li key={idx}>
                                                 <a href={`https://www.google.com/search?q=${encodeURIComponent(res)}`} target="_blank" rel="noopener noreferrer">
-                                                    {res} ↗
+                                                    {res} <ExternalLink size={14} style={{ marginLeft: '4px', verticalAlign: 'middle' }} />
                                                 </a>
                                             </li>
                                         ))}

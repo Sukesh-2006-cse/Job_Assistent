@@ -14,8 +14,16 @@ import PrivateRoute from './components/PrivateRoute';
 import Navigation from './components/Navigation/Navigation';
 
 function App() {
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+  if (!clientId || clientId === 'your_google_client_id_here') {
+    console.error('Google Client ID is missing. Please add VITE_GOOGLE_CLIENT_ID to your .env file.');
+  } else {
+    console.log('Google Client ID found and loaded.');
+  }
+
   return (
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+    <GoogleOAuthProvider clientId={clientId || ''}>
       <Router>
         <div className="App">
           <Routes>

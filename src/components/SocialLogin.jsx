@@ -54,7 +54,7 @@ const SocialLogin = () => {
                     isOpen: true,
                     type: 'error',
                     title: 'Auth Error',
-                    message: 'Authentication with Google failed. Please check your account and try again.',
+                    message: `Authentication failed: ${error.message}. Please try again.`,
                     navTo: null
                 });
             }

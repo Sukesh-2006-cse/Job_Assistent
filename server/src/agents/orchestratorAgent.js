@@ -8,6 +8,7 @@ const interviewPrepAgent = require('./interviewPrepAgent');
 const resumeAgent = require('./resumeAgent');
 const careerAgent = require('./careerAgent');
 const dailyBriefingAgent = require('./dailyBriefingAgent');
+const coverLetterAgent = require('./coverLetterAgent');
 const memoryStore = require('../memory/memoryStore');
 
 class OrchestratorAgent extends BaseAgent {
@@ -40,6 +41,9 @@ class OrchestratorAgent extends BaseAgent {
 
                 case TRIGGERS.DAILY_CRON:
                     return await this.handleDailyCron(userId, context);
+
+                case TRIGGERS.GENERATE_COVER_LETTER:
+                    return await this.handleGenerateCoverLetter(userId, context);
 
                 default:
                     return { error: `Unknown trigger type: ${trigger}` };
@@ -166,6 +170,13 @@ class OrchestratorAgent extends BaseAgent {
             await memoryStore.writeMemory(userId, 'dailyBriefingAgent', 'daily_briefing', briefing, MEMORY_TTL.dailyBriefing);
         }
         return briefing;
+    }
+
+    async handleGenerateCoverLetter(userId, context) {
+        const { job, profile } = context;
+        if (!job || !profile) return { error: 'Missing job or profile context' };
+
+        return await this.safeRun(coverLetterAgent, { userId, job, profile });
     }
 
     // --- Utilities ---

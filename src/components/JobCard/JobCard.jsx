@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './JobCard.module.css';
+import { Target, ExternalLink, Trash2 } from 'lucide-react';
 import { updateJob, deleteJob } from '../../api/jobsApi';
 
 const JobCard = ({ job, onStatusChange, onDelete }) => {
@@ -56,7 +57,8 @@ const JobCard = ({ job, onStatusChange, onDelete }) => {
                     <h3 className={styles.companyName}>{job.company}</h3>
                     {job.matchScore && (
                         <div className={styles.matchBadge} title="AI Match Score">
-                            🎯 {job.matchScore}%
+                            <Target size={14} style={{ marginRight: '4px' }} />
+                            {job.matchScore}%
                         </div>
                     )}
                 </div>

@@ -5,6 +5,7 @@ import StatsBar from '../../components/StatsBar/StatsBar';
 import ButlerCard from '../../components/ButlerCard/ButlerCard';
 import Navigation from '../../components/Navigation/Navigation';
 import NotificationModal from '../../components/NotificationModal';
+import { Sparkles, RefreshCw, Sunrise, CheckCircle } from 'lucide-react';
 import { getButlerToday, markActionDone, getBriefing, generateBriefing, runOrchestrator } from '../../api/butlerApi';
 import { TRIGGERS } from '../../constants/triggers';
 
@@ -178,14 +179,14 @@ const Dashboard = () => {
                             disabled={generatingBriefing}
                             title="Generate Briefing"
                         >
-                            {generatingBriefing ? 'Generating...' : '✨ Generate Briefing'}
+                            {generatingBriefing ? 'Generating...' : <><Sparkles size={18} /> Generate Briefing</>}
                         </button>
                         <button
                             className={`${styles.refreshBtn} ${refreshing ? styles.spinning : ''}`}
                             onClick={() => fetchDashboard()}
                             title="Refresh Dashboard"
                         >
-                            ↻
+                            <RefreshCw size={18} />
                         </button>
                     </div>
                 </header>
@@ -193,7 +194,7 @@ const Dashboard = () => {
                 {briefing && (
                     <div className={styles.briefingCard}>
                         <div className={styles.briefingLeft}>
-                            <span className={styles.briefingIcon}>🌅</span>
+                            <span className={styles.briefingIcon}><Sunrise size={28} /></span>
                         </div>
                         <div className={styles.briefingCenter}>
                             <p className={styles.briefingMessage}>{briefing.message}</p>
@@ -241,7 +242,7 @@ const Dashboard = () => {
                     </div>
                 ) : actions.length === 0 ? (
                     <div className={styles.emptyState}>
-                        <span className={styles.emptyIcon}>✓</span>
+                        <span className={styles.emptyIcon}><CheckCircle size={48} color="var(--accent-green)" /></span>
                         <h3 className={styles.emptyTitle}>You are all caught up!</h3>
                         <p className={styles.emptyText}>
                             No follow-ups needed today. Check back tomorrow or add new applications.

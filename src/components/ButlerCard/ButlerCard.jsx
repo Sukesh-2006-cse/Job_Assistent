@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Bot, Sparkles, Check, Eye } from 'lucide-react';
 import styles from './ButlerCard.module.css';
 
 const ButlerCard = ({ job, onMarkDone, onGenerateBrief, index }) => {
@@ -49,7 +49,7 @@ const ButlerCard = ({ job, onMarkDone, onGenerateBrief, index }) => {
             </div>
 
             <div className={`${styles.actionRow} ${styles[`tint${job.priority}`]}`}>
-                <span className={styles.icon}>🤵</span>
+                <span className={styles.icon}><Bot size={20} /></span>
                 <p className={styles.actionMessage}>{job.action}</p>
             </div>
 
@@ -64,20 +64,20 @@ const ButlerCard = ({ job, onMarkDone, onGenerateBrief, index }) => {
                     onClick={handleMarkDone}
                     disabled={isProcessing}
                 >
-                    {isDone ? 'Done ✓' : 'Mark as Done'}
+                    {isDone ? <><Check size={16} /> Done</> : 'Mark as Done'}
                 </button>
                 <button
                     className={styles.viewDetailsBtn}
                     onClick={() => navigate('/jobs/' + job._id)}
                 >
-                    View Details
+                    <Eye size={16} /> Details
                 </button>
                 <button
                     className={styles.briefBtn}
                     onClick={() => onGenerateBrief(job)}
                     title="Generate AI Brief for this action"
                 >
-                    ✨ Brief
+                    <Sparkles size={16} /> Brief
                 </button>
             </div>
         </div>

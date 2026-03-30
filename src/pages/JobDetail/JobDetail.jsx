@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import styles from './JobDetail.module.css';
 import Navigation from '../../components/Navigation/Navigation';
 import apiClient from '../../api/apiClient';
+import { ClipboardList, Target, Bot, Check, Lightbulb, Clock, ArrowLeft, RefreshCw, Copy, ExternalLink, Sparkles } from 'lucide-react';
 import { getPrepKit, runOrchestrator } from '../../api/butlerApi';
 import { TRIGGERS } from '../../constants/triggers';
 
@@ -205,7 +206,7 @@ const JobDetail = () => {
             <div className={styles.headerWrapper}>
                 <div className={styles.headerContent}>
                     <button className={styles.backBtn} onClick={() => navigate(-1)}>
-                        ← Back to Applications
+                        <ArrowLeft size={18} style={{ marginRight: '8px' }} /> Back to Applications
                     </button>
 
                     <div className={styles.headerTop}>
@@ -234,13 +235,13 @@ const JobDetail = () => {
                             className={`${styles.tabBtn} ${activeTab === 'details' ? styles.activeTab : ''}`}
                             onClick={() => setActiveTab('details')}
                         >
-                            📋 Details
+                            <ClipboardList size={18} style={{ marginRight: '8px' }} /> Details
                         </button>
                         <button
                             className={`${styles.tabBtn} ${activeTab === 'prep' ? styles.activeTab : ''}`}
                             onClick={() => setActiveTab('prep')}
                         >
-                            🎯 Interview Prep
+                            <Target size={18} style={{ marginRight: '8px' }} /> Interview Prep
                         </button>
                     </div>
                 )}
@@ -344,14 +345,14 @@ const JobDetail = () => {
                         <section className={`${styles.detailSection} ${styles.butlerSection}`}>
                             <div className={styles.butlerHeader}>
                                 <h3 className={styles.sectionHeading}>
-                                    <span className={styles.butlerIcon}>🤵</span> Ask Butler
+                                    <span className={styles.butlerIcon}><Bot size={24} /></span> Ask Butler
                                 </h3>
                                 <p className={styles.butlerSubtext}>Generate a personalised follow-up email</p>
                             </div>
 
                             {!suggestion && !aiLoading && (
                                 <button className={styles.generateBtn} onClick={() => generateEmail()}>
-                                    Generate Follow-up Email
+                                    <Sparkles size={18} style={{ marginRight: '8px' }} /> Generate Follow-up Email
                                 </button>
                             )}
 
@@ -371,10 +372,10 @@ const JobDetail = () => {
                                     />
                                     <div className={styles.aiActions}>
                                         <button className={styles.copyBtn} onClick={copyToClipboard}>
-                                            {copied ? 'Copied! ✓' : 'Copy to Clipboard'}
+                                            {copied ? <><Check size={16} /> Copied!</> : <><Copy size={16} /> Copy to Clipboard</>}
                                         </button>
                                         <button className={styles.regenerateBtn} onClick={() => generateEmail(true)}>
-                                            Regenerate
+                                            <RefreshCw size={16} /> Regenerate
                                         </button>
                                     </div>
                                 </div>
@@ -396,7 +397,7 @@ const JobDetail = () => {
                                     rel="noopener noreferrer"
                                     className={styles.applyNowBtn}
                                 >
-                                    Apply Now →
+                                    Apply Now <ExternalLink size={18} style={{ marginLeft: '8px' }} />
                                 </a>
                             </div>
                         )}
@@ -405,7 +406,7 @@ const JobDetail = () => {
                     <div className={styles.prepContent}>
                         {!prepReady && !prepLoading ? (
                             <div className={styles.prepPending}>
-                                <div className={styles.prepEmptyIcon}>⏳</div>
+                                <div className={styles.prepEmptyIcon}><Clock size={48} /></div>
                                 <h3>Prep kit is being generated...</h3>
                                 <p>Butler is analyzing the job and crafting your strategy. Check back in a moment.</p>
                                 <button className={styles.generateNowBtn} onClick={handleManuallyTriggerPrep}>
@@ -438,7 +439,7 @@ const JobDetail = () => {
                                                     </button>
                                                     {hintsVisible[`tech_${i}`] && (
                                                         <div className={styles.hintBox}>
-                                                            💡 Think about your experience with related technologies in your past projects.
+                                                            <Lightbulb size={16} color="var(--accent-yellow)" style={{ marginRight: '8px' }} /> Think about your experience with related technologies in your past projects.
                                                         </div>
                                                     )}
                                                 </div>
@@ -484,7 +485,7 @@ const JobDetail = () => {
                                             <div className={styles.tipCards}>
                                                 {(prepKit.keyTips || []).map((t, i) => (
                                                     <div key={i} className={styles.tipCard}>
-                                                        <span className={styles.tipIcon}>💡</span>
+                                                        <span className={styles.tipIcon}><Lightbulb size={18} /></span>
                                                         <p>{t}</p>
                                                     </div>
                                                 ))}
@@ -494,7 +495,7 @@ const JobDetail = () => {
                                 </div>
 
                                 <button className={styles.copyPrepBtn} onClick={copyFullPrepKit}>
-                                    {copied ? 'Copied Full Kit! ✓' : 'Copy Full Prep Kit'}
+                                    {copied ? <><Check size={18} /> Copied Full Kit!</> : <><Copy size={18} /> Copy Full Prep Kit</>}
                                 </button>
                             </div>
                         )}

@@ -40,6 +40,31 @@ router.get('/match/:jobId', authMiddleware, async (req, res) => {
     }
 });
 
+// POST /api/discover/generate-cover-letter - AI generate cover letter
+router.post('/generate-cover-letter', authMiddleware, async (req, res) => {
+    try {
+        const { job } = req.body;
+        const profile = await Profile.findOne({ userId: req.user.id }).populate('userId', 'name email');
+
+        if (!profile) return res.status(404).json({ error: 'Profile not found' });
+
+        const result = await orchestratorAgent.run({
+            trigger: TRIGGERS.GENERATE_COVER_LETTER,
+            userId: req.user._id,
+            context: { job, profile }
+        });
+
+        res.json(result);
+    } catch (error) {
+        console.error('[Discover] Cover Letter Error Details:', {
+            message: error.message,
+            stack: error.stack,
+            body: req.body
+        });
+        res.status(500).json({ error: 'Failed to generate cover letter: ' + error.message });
+    }
+});
+
 // --- Existing Discovery Logic (Migrated from server.js) ---
 
 router.get('/jobs', async (req, res) => {
@@ -80,7 +105,7 @@ const fetchJSearchJobs = async (query) => {
             url: job.job_apply_link,
             source: 'JSearch (LinkedIn/Indeed)',
             logo: job.employer_logo,
-            description: job.job_description // Full description for matching
+            description: job.job_description || "Professional job opportunity. Click 'View & Apply' to read the full description and requirements on the company website."
         }));
     } catch (error) {
         console.error('JSearch Error:', error.message);
@@ -107,7 +132,7 @@ const fetchAdzunaJobs = async (query) => {
             url: job.redirect_url,
             source: 'Adzuna',
             logo: null,
-            description: job.description
+            description: job.description || "Detailed job listing on Adzuna. View the full posting for more information about this role and company."
         }));
     } catch (error) {
         console.error('Adzuna Error:', error.message);
@@ -129,7 +154,7 @@ const fetchRemotiveJobs = async (query) => {
             url: job.url,
             source: 'Remotive',
             logo: job.company_logo,
-            description: job.description?.replace(/<[^>]*>/g, '')
+            description: job.description?.replace(/<[^>]*>/g, '') || "Remote-first position. Click to see the full benefits and role details on Remotive."
         }));
     } catch (error) {
         console.error('Remotive Error:', error.message);
@@ -151,7 +176,7 @@ const fetchMuseJobs = async (query) => {
             url: job.refs.landing_page,
             source: 'The Muse',
             logo: null,
-            description: 'Company culture focused job listing.'
+            description: "High-growth opportunity featured on The Muse. Explore the company's culture and the full job description via the apply link."
         }));
     } catch (error) {
         console.error('Muse Error:', error.message);
