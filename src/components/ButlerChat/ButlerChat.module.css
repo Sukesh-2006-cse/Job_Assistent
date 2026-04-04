@@ -1,0 +1,544 @@
+/* ─────────────────────────────────────────
+   Floating Bubble  — Neo-Brutalism
+───────────────────────────────────────── */
+.floatingBubble {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 1000;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--accent-purple);
+    border: 3px solid var(--border-color);
+    box-shadow: 4px 4px 0px 0px #000000;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.floatingBubble:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px 0px #000000;
+}
+
+.floatingBubble:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px 0px #000000;
+}
+
+.bubbleOpen {
+    background: black;
+    color: white;
+}
+
+.notifDot {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 11px;
+    height: 11px;
+    background: var(--accent-pink);
+    border-radius: 50%;
+    border: 2.5px solid white;
+}
+
+/* ─────────────────────────────────────────
+   Chat Panel
+───────────────────────────────────────── */
+.panel {
+    position: fixed;
+    bottom: 96px;
+    right: 28px;
+    z-index: 1000;
+    width: 380px;
+    max-height: 560px;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: 6px 6px 0px 0px #000000;
+    animation: slideUp 0.2s ease forwards;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ─────────────────────────────────────────
+   Header
+───────────────────────────────────────── */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: var(--accent-purple);
+    border-bottom: var(--border-width) solid var(--border-color);
+    flex-shrink: 0;
+    color: white;
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatarSmall {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+}
+
+.headerName {
+    font-size: 15px;
+    font-weight: 900;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.headerSub {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+    margin-top: 1px;
+}
+
+.headerRight {
+    display: flex;
+    gap: 6px;
+}
+
+.headerBtn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    padding: 5px;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.headerBtn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-1px, -1px);
+}
+
+.headerBtn:active {
+    transform: translate(1px, 1px);
+}
+
+/* ─────────────────────────────────────────
+   Messages Area
+───────────────────────────────────────── */
+.messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: white;
+    min-height: 200px;
+    max-height: 380px;
+}
+
+.messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+.messages::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+    border: 1px solid #000;
+}
+
+/* ─────────────────────────────────────────
+   Empty State
+───────────────────────────────────────── */
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 8px;
+    text-align: center;
+}
+
+.emptyAvatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--accent-yellow);
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: 3px 3px 0px #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    margin-bottom: 14px;
+}
+
+.emptyGreeting {
+    font-size: 17px;
+    font-weight: 900;
+    color: var(--text-color);
+    margin: 0 0 5px;
+}
+
+.emptySub {
+    font-size: 13px;
+    color: #555;
+    font-weight: 500;
+    margin: 0 0 18px;
+}
+
+.suggestions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.chip {
+    background: white;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 9px 14px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-color);
+    cursor: pointer;
+    text-align: left;
+    box-shadow: 2px 2px 0px #000;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s;
+    font-family: var(--font-main);
+}
+
+.chip:hover {
+    background: var(--accent-yellow);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0px #000;
+}
+
+.chip:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px #000;
+}
+
+/* ─────────────────────────────────────────
+   Message Rows
+───────────────────────────────────────── */
+.row {
+    display: flex;
+    align-items: flex-end;
+    gap: 7px;
+    animation: fadeIn 0.18s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.rowUser {
+    flex-direction: row-reverse;
+}
+
+.rowAssistant {
+    flex-direction: row;
+}
+
+.msgAvatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--accent-yellow);
+    border: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    flex-shrink: 0;
+    margin-bottom: 4px;
+}
+
+.bubbleWrap {
+    display: flex;
+    flex-direction: column;
+    max-width: 75%;
+}
+
+.userSpacer {
+    width: 26px;
+    flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────
+   Message Bubbles
+───────────────────────────────────────── */
+.msgBubble {
+    padding: 10px 14px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    word-break: break-word;
+    white-space: pre-wrap;
+    font-family: var(--font-main);
+    border: 2px solid var(--border-color);
+}
+
+.bubbleUser {
+    background: black;
+    color: white;
+    border-radius: 12px 12px 3px 12px;
+    box-shadow: 3px 3px 0px 0px var(--accent-purple);
+}
+
+.bubbleAssistant {
+    background: white;
+    color: var(--text-color);
+    border-radius: 3px 12px 12px 12px;
+    box-shadow: 3px 3px 0px 0px #000;
+}
+
+/* Blinking cursor during streaming */
+.cursor {
+    display: inline-block;
+    width: 2px;
+    height: 13px;
+    background: currentColor;
+    border-radius: 1px;
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: blink 0.7s step-end infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+/* ─────────────────────────────────────────
+   Typing Dots
+───────────────────────────────────────── */
+.dots {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+    height: 16px;
+    padding: 0 2px;
+}
+
+.dots span {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #999;
+    border-radius: 50%;
+    animation: bounce 1.3s ease-in-out infinite;
+}
+
+.dots span:nth-child(2) {
+    animation-delay: 0.18s;
+}
+
+.dots span:nth-child(3) {
+    animation-delay: 0.36s;
+}
+
+@keyframes bounce {
+
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+    }
+
+    30% {
+        transform: translateY(-5px);
+    }
+}
+
+/* ─────────────────────────────────────────
+   Timestamps
+───────────────────────────────────────── */
+.ts {
+    font-size: 10px;
+    color: #888;
+    margin-top: 4px;
+    padding-left: 4px;
+    font-weight: 500;
+}
+
+.tsRight {
+    text-align: right;
+    padding-right: 4px;
+    padding-left: 0;
+}
+
+/* ─────────────────────────────────────────
+   Input Row
+───────────────────────────────────────── */
+.inputRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: var(--bg-color);
+    border-top: var(--border-width) solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.input {
+    flex: 1;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius);
+    outline: none;
+    padding: 9px 14px;
+    font-size: 13px;
+    background: white;
+    color: var(--text-color);
+    font-family: var(--font-main);
+    font-weight: 500;
+    box-shadow: 2px 2px 0px #000;
+    transition: box-shadow 0.1s ease;
+}
+
+.input:focus {
+    box-shadow: 4px 4px 0px #000;
+}
+
+.input::placeholder {
+    color: #aaa;
+}
+
+.input:disabled {
+    background: #f0f0f0;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.sendBtn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius);
+    background: var(--accent-purple);
+    border: 2px solid var(--border-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-offset);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.sendBtn:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px 0px #000000;
+}
+
+.sendBtn:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px 0px #000000;
+}
+
+.sendBtn:disabled {
+    background: #aaa;
+    border-color: #aaa;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.spin {
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ─────────────────────────────────────────
+   Footer
+───────────────────────────────────────── */
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 5px 0 8px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #888;
+    background: var(--bg-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────
+   Mobile
+───────────────────────────────────────── */
+@media (max-width: 480px) {
+    .panel {
+        width: 92vw;
+        right: 4vw;
+        bottom: 88px;
+    }
+
+    .floatingBubble {
+        bottom: 18px;
+        right: 18px;
+        width: 50px;
+        height: 50px;
+    }
+}

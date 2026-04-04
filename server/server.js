@@ -13,13 +13,21 @@ const jobRoutes = require('./src/routes/jobs');
 const butlerRoutes = require('./src/routes/butler');
 const profileRoutes = require('./src/routes/profile');
 const discoverRoutes = require('./src/routes/discover');
+const feedRoutes = require('./src/routes/feed');
+const chatRoutes = require('./src/routes/chat');
+const analyticsRoutes = require('./src/routes/analytics');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: true,  // Allow all origins (dev). Set CLIENT_URL in prod.
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+}));
 app.use(express.json());
 
 // MongoDB Connection
@@ -94,11 +102,19 @@ app.post('/api/google-auth', async (req, res) => {
 });
 
 // Routes
+app.use('/api/feed', (req, res, next) => {
+    res.setHeader('X-Accel-Buffering', 'no');
+    next();
+});
+
 app.use('/api/job-tracker', jobRoutes);
 app.use('/api/butler', butlerRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/profiles', profileRoutes);
 app.use('/api/discover', discoverRoutes);
+app.use('/api/feed', feedRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // 404 Handler
 app.use((req, res) => {

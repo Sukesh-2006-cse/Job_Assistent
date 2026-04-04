@@ -1,18 +1,18 @@
 # Apply-Flow: AI-Powered Career Assistant 🚀
 
-Apply-Flow is a premium, full-stack job search and discovery platform that transforms the job hunt from a chore into a personalized, AI-guided journey. Using a **Multi-Agent Orchestration** system, it not only aggregates jobs but acts as your personal "Career Butler."
+Apply-Flow is a premium, full-stack job search and discovery platform that transforms the job hunt into a personalized, AI-guided journey. Using a **Multi-Agent Orchestration** system, it not only aggregates jobs but acts as your personal **Career Butler** — tracking every application, streaming live activity, answering questions in real time, and visualising your progress.
 
 ---
 
-## 🏗️ System Architectures
+## 🏗️ System Architecture
 
 ### 1. Multi-Agent AI Orchestration
-The heart of Apply-Flow is its **Orchestration Layer**. Instead of a single AI prompt, we use specialized agents to handle specific domains of the career search.
+The heart of Apply-Flow is its **Orchestration Layer**. Specialised agents handle different domains of the career search and broadcast their progress live to the user via Server-Sent Events.
 
 ```mermaid
 graph TD
     A[User / Frontend] -->|Trigger| B(Orchestrator Agent)
-    
+
     subgraph AI Agents
         B --> C[Follow-up Agent]
         B --> D[Job Match Agent]
@@ -21,18 +21,51 @@ graph TD
         B --> G[Career Agent]
         B --> H[Daily Briefing Agent]
     end
-    
+
     subgraph Data & Storage
-        C --> I[(MongoDB)]
+        C --> I[(MongoDB Atlas)]
         F --> I
-        H --> K[Memory Store / Redis-lite]
+        H --> K[Memory Store]
     end
-    
+
+    subgraph Real-Time Layer
+        B -->|SSE Events| L[SSE Emitter]
+        L -->|agent_activity stream| A
+    end
+
     B -->|Synced JSON Response| A
 ```
 
-### 2. Job Recommendation Flow
-Our "Discover" system doesn't just pull from one API; it aggregates and scores in real-time.
+### 2. Real-Time Architecture — Agent Feed + Butler Chat
+Two parallel real-time pipelines run simultaneously: an **SSE push channel** for live agent logs and a **streaming HTTP endpoint** for the chat interface.
+
+```mermaid
+sequenceDiagram
+    participant FE as Frontend
+    participant SSE as /api/feed/activity (SSE)
+    participant CHAT as /api/chat/message (Streaming)
+    participant ORC as Orchestrator Agent
+    participant GROQ as Groq API (Llama 3.3)
+    participant DB as MongoDB
+
+    FE->>SSE: GET (EventSource, JWT in query)
+    SSE-->>FE: connected event
+
+    FE->>ORC: POST /api/butler/dashboard
+    ORC->>DB: Fetch jobs + profile
+    ORC-->>SSE: emit agent_activity events
+    SSE-->>FE: real-time event stream
+    ORC-->>FE: final JSON response
+
+    FE->>CHAT: POST (message + history)
+    CHAT->>DB: Fetch user context
+    CHAT->>GROQ: streamText(systemPrompt + history)
+    GROQ-->>CHAT: token stream
+    CHAT-->>FE: chunked text (word-by-word)
+```
+
+### 3. Job Recommendation Flow
+The Discover engine aggregates and scores jobs in real time across multiple APIs.
 
 ```mermaid
 sequenceDiagram
@@ -47,13 +80,12 @@ sequenceDiagram
     S->>A: Concurrent Fetch (All Platforms)
     A-->>S: Normalized Job Data
     S->>B: Process Jobs (Extract Keywords)
-    B-->>S: Match Scores (0-100)
+    B-->>S: Match Scores (0–100)
     S->>S: Rank by Score
     S->>F: Display Premium Ranked List
 ```
 
-### 3. Authentication & Security Flow
-We use a hybrid approach with JWT for local sessions and OAuth 2.0 for quick onboarding.
+### 4. Authentication & Security Flow
 
 ```mermaid
 graph LR
@@ -61,70 +93,166 @@ graph LR
     B -->|Check| C[(MongoDB)]
     C -->|User Found| D[Generate JWT]
     D -->|Token| E[LocalStorage]
-    E -->|Auth Header| F[Private Routes]
+    E -->|Auth Header / Query param| F[Private Routes + SSE]
     F -->|Verify| G[Protected API]
+```
+
+### 5. Analytics Data Pipeline
+All 5 datasets computed server-side in a single request — nothing heavy runs in the browser.
+
+```mermaid
+graph LR
+    A[GET /api/analytics/summary] --> B{MongoDB: All Jobs}
+    B --> C[Applications Over Time\n12-week grouping]
+    B --> D[Status Distribution\npercentages]
+    B --> E[Platform Performance\ninterview rate per source]
+    B --> F[Weekday Heatmap\napplied day of week]
+    B --> G[Key Metrics\ntotals + rates + averages]
+    C & D & E & F & G --> H[Single JSON Response]
+    H --> I[React: Recharts + CSS Grid]
 ```
 
 ---
 
-## 📱 Page-by-Page Deep Dive
+## 📱 Pages & Features
 
 ### 1. Butler Dashboard (`/dashboard`)
-The "Daily Overview" for the job seeker.
-- **Morning Briefing**: AI analyzes your upcoming tasks and matches, generating an upbeat message and high-priority pills.
-- **Live Tracker Stats**: Direct sync with your application database showing progress across statuses.
-- **Action Items**: A list of applications that need follow-ups (based on the `followUpAgent` logic).
-- **Actions**: "Generate Briefing" (manual override), "Refresh Stats", "Quick Start Onboarding".
+- **Morning Briefing** — Groq Llama 3.3 synthesises your tasks into an upbeat daily plan.
+- **Live Tracker Stats** — Direct sync from MongoDB with zero-cache headers.
+- **Action Items** — Follow-up queue from the Follow-up Agent.
+- **🆕 Agent Activity Feed** — Real-time SSE panel showing what each AI agent is doing as it runs.
 
 ### 2. Job Discovery (`/discover`)
-The intelligence engine for finding new roles.
-- **Multi-API Aggregation**: Jobs are fetched concurrently from JSearch, Adzuna, and The Muse.
-- **Matching Score**: Each job is analyzed against your skills stored in your profile.
-- **Actions**: "View & Apply" (External Redirect), "Search by Keyword" (Custom exploration).
+- **Multi-API Aggregation** — JSearch, Adzuna, The Muse fetched concurrently.
+- **Matching Score** — NLP keyword match against your profile skills.
+- **Session Cache** — Prevents redundant API calls during navigation.
 
 ### 3. Application Tracker (`/applications`)
-Your personal CRM for job hunting.
-- **CRUD Operations**: Add, Edit, and Delete job applications.
-- **Status Pipeline**: Shift jobs from "Applied" to "Interview", "Offer", or "Rejected".
-- **Notes & Logs**: Keep track of specific details for each role.
-- **Actions**: "Add Job" (Modal), "Update Status", "Filter by Status".
+- **CRUD Operations** — Add, Edit, Delete applications.
+- **Status Pipeline** — Applied → Interview → Offer → Rejected.
+- **Notes & Logs** — Per-application notes with inline editing.
 
 ### 4. Career Butler (`/career`)
-Self-improvement through data analysis.
-- **Pattern Recognition**: Analyzes your last 3 rejections to find skill gaps.
-- **Personalized Roadmap**: Generates a step-by-step plan to improve your "fit" for your dream roles.
-- **Resume Analysis**: Upload your PDF resume to have it scanned against market requirements.
+- **Pattern Recognition** — Analyses rejections to surface skill gaps.
+- **Personalised Roadmap** — Step-by-step plan toward your target role.
+- **Resume Analysis** — PDF upload scanned against market requirements.
 
 ### 5. Job Detail View (`/jobs/:id`)
-The deep-dive for a specific application.
-- **Interviewer Prep Kit**: If you mark a job as "Interview", the agent generates a custom prep kit.
-- **AI Email Drafts**: Generate professional follow-up emails based on the time since your application.
-- **Actions**: "Generate Prep Kit", "Draft Follow-up Email".
+- **Interview Prep Kit** — Custom prep generated when status changes to Interview.
+- **AI Email Drafts** — Follow-up emails using the actual company and role name.
+
+### 6. 🆕 Application Analytics (`/analytics`)
+A dedicated read-only data visualisation page built with **Recharts**.
+
+| Chart | Type | Library |
+|---|---|---|
+| Applications Over Time | LineChart (12 weeks) | Recharts |
+| Application Status | Donut (PieChart) | Recharts |
+| Platform Performance | Horizontal BarChart | Recharts |
+| Most Active Days | Heatmap grid | Custom CSS Grid |
+| Insight Card | Logic-based text | Pure JS |
+
+**6 Key Metric Cards**: Total Applications · Active · Interview Rate · Avg Response Days · Offers · This Week
+
+**Smart Insight Engine** — pure frontend logic generates context-aware advice:
+- Which platform converts best
+- Response time warnings
+- Weekly application pace nudges
+
+---
+
+## 🤖 🆕 Butler Chat Interface
+
+A floating AI chat assistant available on every authenticated page.
+
+```mermaid
+graph TD
+    A[Floating Bubble 🤵] -->|Click| B[Chat Window]
+    B --> C{useButlerChat hook}
+    C --> D[sendChatMessage — fetch streaming]
+    D --> E[POST /api/chat/message]
+    E --> F[Fetch user jobs + profile from DB]
+    F --> G[Build system prompt with full context]
+    G --> H[Groq streamText — Llama 3.3-70b]
+    H -->|chunked text stream| E
+    E -->|Transfer-Encoding: chunked| D
+    D -->|ReadableStream reader| C
+    C -->|setState per chunk| B
+```
+
+**Features:**
+- 🔄 **Real-time streaming** — words appear word-by-word as Groq responds
+- 🎯 **Context-aware** — Butler knows your actual companies, roles, skills, and priorities
+- 💡 **Smart suggestions** — chips auto-update with high-priority actions from `/api/butler/today`
+- 💬 **History** — last 10 messages sent with every request for conversational memory
+- 🗑️ **Clear chat** — one-click reset
+- 🔔 **Notification dot** — shows when there are unread messages and chat is closed
+- 📱 **Responsive** — adapts to mobile screen widths
+
+---
+
+## 🆕 Real-Time Agent Activity Feed (SSE)
+
+Live agent activity streamed to the Dashboard using **Server-Sent Events**.
+
+```mermaid
+sequenceDiagram
+    participant FE as Dashboard (EventSource)
+    participant BE as /api/feed/activity
+    participant SSE as sseEmitter.js
+    participant ORC as Orchestrator Agent
+
+    FE->>BE: GET ?token=JWT (SSE connection)
+    BE->>SSE: addConnection(userId, res)
+    BE-->>FE: event: connected
+
+    loop Every 25s
+        BE-->>FE: : heartbeat (keep-alive)
+    end
+
+    ORC->>SSE: emitToUser(userId, 'agent_activity', payload)
+    SSE-->>FE: event: agent_activity\ndata: {icon, agentName, message, status}
+
+    FE->>BE: disconnect
+    BE->>SSE: removeConnection(userId)
+```
 
 ---
 
 ## ✨ AI Features & Logic
 
-- **Daily Briefing Agent**: Uses **Groq (Llama 3.3)** to synthesize user data into a concise, encouraging brief. Features "Live Sync" to ensure counts are always accurate.
-- **Follow-up Agent**: Logic: `(Applied Date < Today - 1 Day) & (Status == 'Applied')` -> Trigger Follow-up Action.
-- **Job Match Agent**: Uses NLP keyword extraction to score jobs based on the user's Profile Skills and Preferred Roles.
-- **Resume Agent**: Parses PDF text to extract skills and match them against target job descriptions.
+| Feature | Agent | Model |
+|---|---|---|
+| Daily Briefing | `dailyBriefingAgent` | Groq Llama 3.3-70b |
+| Butler Chat | `/api/chat/message` | Groq Llama 3.3-70b (streaming) |
+| Interview Prep Kit | `interviewPrepAgent` | Groq Llama 3.3-70b |
+| AI Email Draft | `followUpAgent` | Groq Llama 3.3-70b |
+| Resume Analysis | `resumeAgent` | Groq Llama 3.3-70b |
+| Career Roadmap | `careerAgent` | Groq Llama 3.3-70b |
+| Job Matching | `jobMatchAgent` | NLP keyword scoring |
 
 ---
 
-## 🛠️ Tech Stack & Dependencies
+## 🛠️ Tech Stack
 
-- **Main Framework**: React 18 (Vite) & Express 5.
-- **AI Integration**: AI SDK with Groq Provider.
-- **Data Layer**: MongoDB Atlas with Mongoose.
-- **Automation**: node-cron (Scheduler).
-- **Styling**: Vanilla CSS with a Neo-Brutalism design system.
+| Layer | Technology |
+|---|---|
+| Frontend | React 18 + Vite, CSS Modules, React Router v6 |
+| Charts | **Recharts** (LineChart, PieChart, BarChart) |
+| Icons | **Lucide React** |
+| Backend | Express 5, Node.js |
+| AI | **Vercel AI SDK** + **Groq Provider** (Llama 3.3-70b) |
+| Database | MongoDB Atlas + Mongoose |
+| Auth | JWT + Google OAuth 2.0 |
+| Real-Time | **Server-Sent Events (SSE)** + chunked streaming |
+| Scheduler | node-cron |
+| Styling | Vanilla CSS — Neo-Brutalism design system |
 
 ---
 
 ## 📦 Installation & Setup
 
-### 1. Local Development
+### 1. Clone & Install
 ```bash
 git clone https://github.com/Sukesh-2006-cse/Job_Assistent.git
 cd Job_Assistent
@@ -137,25 +265,31 @@ cd server && npm install
 MONGODB_URI=your_mongodb_uri
 PORT=5000
 JWT_SECRET=your_jwt_secret
-GROQ_API_KEY=your_groq_key
+GROQ_API_KEY=your_groq_api_key
 JSEARCH_KEY=your_key
 ADZUNA_ID=your_id
 ADZUNA_KEY=your_key
 MUSE_KEY=your_key
+VITE_GOOGLE_CLIENT_ID=your_google_oauth_client_id
 ```
 
-### 3. Run Commands
+### 3. Run
 ```bash
-# Root: Start both Client & Server
-npm run start:all
+npm run start:all   # Starts both Vite dev server + Express backend
 ```
 
 ---
 
 ## 🛡️ Robustness & Performance
-- **Zero-Cache Sync**: Backend uses `res.setHeader('Cache-Control', 'no-store')` on dashboard routes to ensure real-time accuracy after adding jobs.
-- **Safe Agent Execution**: All AI agents are wrapped in `safeRun` logic to prevent partial failures from crashing the UI.
-- **Defensive Frontend**: React components use optional chaining and fallback states to withstand intermittent API errors.
+
+- **Zero-Cache Sync** — `Cache-Control: no-store` on dashboard routes ensures real-time accuracy.
+- **Safe Agent Execution** — All AI agents wrapped in `safeRun` logic; partial failures don't crash the UI.
+- **SSE Heartbeat** — 25-second keep-alive pings prevent proxy/load-balancer timeouts.
+- **Streaming via fetch** — Butler Chat bypasses Axios's lack of streaming support using native `fetch` + `ReadableStream`.
+- **Stale-process protection** — Server `package.json` uses `nodemon` so all route changes auto-reload.
+- **Defensive Frontend** — Optional chaining and fallback states throughout React components.
+
+---
 
 ## 📄 License
 MIT License. Built with passion for the modern job seeker.

@@ -1,0 +1,419 @@
+/* ── Page ───────────────────────────────────────── */
+.container {
+    min-height: 100vh;
+    background: var(--bg-color);
+    font-family: var(--font-main);
+}
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+}
+
+/* ── Custom Tooltip ──────────────────────────────── */
+.tooltip {
+    background: white;
+    border: 2px solid #000;
+    border-radius: 8px;
+    padding: 8px 12px;
+    box-shadow: 3px 3px 0 #000;
+}
+
+.tooltipLabel {
+    font-size: 11px;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.tooltipValue {
+    font-size: 14px;
+    font-weight: 900;
+    color: #000;
+}
+
+/* ── Header ─────────────────────────────────────── */
+.header {
+    margin-bottom: 28px;
+}
+
+.title {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--text-color);
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    line-height: 1;
+}
+
+.subtitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+    margin-top: 6px;
+}
+
+/* ── Metric Cards ───────────────────────────────── */
+.metricsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.metricCard {
+    background: white;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-offset);
+    padding: 20px 20px 16px;
+    border-left-width: 5px;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.metricCard:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000;
+}
+
+.metricValue {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--text-color);
+    line-height: 1;
+}
+
+.metricLabel {
+    font-size: 12px;
+    font-weight: 700;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 6px;
+}
+
+.green {
+    color: #16a34a;
+}
+
+.amber {
+    color: #d97706;
+}
+
+.red {
+    color: #dc2626;
+}
+
+/* ── Charts Row ─────────────────────────────────── */
+.chartsRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.chartCard {
+    background: white;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-offset);
+    padding: 20px;
+    min-height: 300px;
+}
+
+.chartTitle {
+    font-size: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-color);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #000;
+}
+
+.chartEmpty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #888;
+    text-align: center;
+    padding: 20px;
+}
+
+.chartNote {
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    margin-bottom: 8px;
+}
+
+/* ── Donut Legend ───────────────────────────────── */
+.donutLegend {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 12px;
+    margin-top: 10px;
+}
+
+.legendItem {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.legendSwatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    border: 1.5px solid #000;
+    flex-shrink: 0;
+}
+
+.legendLabel {
+    flex: 1;
+    color: #333;
+}
+
+.legendCount {
+    font-weight: 900;
+    color: #000;
+}
+
+.legendPct {
+    color: #888;
+    font-size: 11px;
+}
+
+/* ── Heatmap ────────────────────────────────────── */
+.heatmapGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin: 8px 0 16px;
+}
+
+.heatmapCell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.heatmapSquare {
+    width: 100%;
+    aspect-ratio: 1;
+    border: 2px solid #000;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s;
+}
+
+.heatmapSquare:hover {
+    transform: scale(1.08);
+}
+
+.heatmapCount {
+    font-size: 13px;
+    font-weight: 900;
+    color: #000;
+}
+
+.heatmapDay {
+    font-size: 10px;
+    font-weight: 700;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.heatmapLegend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.legendBlock {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 2px solid #000;
+    display: inline-block;
+}
+
+.legendText {
+    font-size: 11px;
+    font-weight: 700;
+    color: #555;
+}
+
+/* ── Insight Card ───────────────────────────────── */
+.insightCard {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: var(--accent-yellow);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-offset);
+    padding: 24px 28px;
+    margin-top: 8px;
+}
+
+.insightIcon {
+    flex-shrink: 0;
+    color: black;
+}
+
+.insightText {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.55;
+}
+
+/* ── Loading Skeleton ───────────────────────────── */
+.skeleton {
+    background: white;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-offset);
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+    background-size: 400% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 100% 0;
+    }
+
+    100% {
+        background-position: -100% 0;
+    }
+}
+
+/* ── Empty & Error states ───────────────────────── */
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+    gap: 14px;
+}
+
+.emptyTitle {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--text-color);
+    text-transform: uppercase;
+}
+
+.emptySub {
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+    max-width: 320px;
+}
+
+.discoverBtn {
+    margin-top: 8px;
+    background: var(--accent-yellow);
+    color: black;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-offset);
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 900;
+    text-decoration: none;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.discoverBtn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000;
+}
+
+.errorBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 48px 24px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #dc2626;
+}
+
+.retryBtn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-offset);
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.retryBtn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000;
+}
+
+/* ── Responsive ─────────────────────────────────── */
+@media (max-width: 768px) {
+    .metricsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .chartsRow {
+        grid-template-columns: 1fr;
+    }
+
+    .metricValue {
+        font-size: 28px;
+    }
+
+    .title {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .metricsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .content {
+        padding: 20px 16px 48px;
+    }
+}

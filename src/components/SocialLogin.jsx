@@ -39,6 +39,7 @@ const SocialLogin = () => {
 
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
+                window.dispatchEvent(new Event('auth-change')); // Notify App to show ButlerChat
 
                 setModalConfig({
                     isOpen: true,

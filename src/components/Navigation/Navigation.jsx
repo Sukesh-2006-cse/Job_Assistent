@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Compass, ClipboardList, TrendingUp, User, LogOut } from 'lucide-react';
+import { LayoutDashboard, Compass, ClipboardList, TrendingUp, User, LogOut, BarChart2 } from 'lucide-react';
 import './Navigation.css';
 
 const Navigation = () => {
@@ -26,6 +26,9 @@ const Navigation = () => {
                 </Link>
                 <Link to="/career" className="nav-link">
                     <TrendingUp size={18} /> Career Butler
+                </Link>
+                <Link to="/analytics" className="nav-link">
+                    <BarChart2 size={18} /> Analytics
                 </Link>
                 <Link to="/profile" className="nav-link">
                     <User size={18} /> Profile
